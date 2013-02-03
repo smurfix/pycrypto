@@ -1421,6 +1421,38 @@ test_data = [
       '5baa61e4c9b93f3f0682250b6cf8331b', # Key (hash of 'password')
       'GPG Test Vector #1',
       dict(mode='OPENPGP', iv='3d7d3e62282add7eb203eeba5c800733', encrypted_iv='fd934601ef49cb58b6d9aebca6056bdb96ef' ) ),
+
+    # NIST SP 800-38C
+    ( '0001020304050607|20212223',
+      '0001020304050607|7162015b|4dac255d',
+      '404142434445464748494a4b4c4d4e4f',
+      'NIST SP 800-38C Appex C.1',
+      dict(mode='CCM', iv='10111213141516')
+    ),
+    ( '000102030405060708090a0b0c0d0e0f|202122232425262728292a2b2c2d2e2f',
+      '000102030405060708090a0b0c0d0e0f|d2a1f0e051ea5f62081a7792073d593d|1fc64fbfaccd',
+      '404142434445464748494a4b4c4d4e4f',
+      'NIST SP 800-38C Appex C.2',
+      dict(mode='CCM', iv='1011121314151617')
+    ),
+    ( '000102030405060708090a0b0c0d0e0f10111213|'+
+      '202122232425262728292a2b2c2d2e2f3031323334353637',
+      '000102030405060708090a0b0c0d0e0f10111213|'+
+      'e3b201a9f5b71a7a9b1ceaeccd97e70b6176aad9a4428aa5|484392fbc1b09951',
+      '404142434445464748494a4b4c4d4e4f',
+      'NIST SP 800-38C Appex C.3',
+      dict(mode='CCM', iv='101112131415161718191a1b')
+    ),
+    ( 
+      (''.join(["%02X" % (x*16+y) for x in xrange(0,16) for y in xrange(0,16)]))*256+'|'+
+      '202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f',
+      (''.join(["%02X" % (x*16+y) for x in xrange(0,16) for y in xrange(0,16)]))*256+'|'+
+      '69915dad1e84c6376a68c2967e4dab615ae0fd1faec44cc484828529463ccf72|'+
+      'b4ac6bec93e8598e7f0dadbcea5b',
+      '404142434445464748494a4b4c4d4e4f',
+      'NIST SP 800-38C Appex C.4',
+      dict(mode='CCM', iv='101112131415161718191a1b1c')
+    ),
 ]
 
 def get_tests(config={}):
