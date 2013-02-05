@@ -159,6 +159,8 @@ class Benchmark:
         blocks = self.random_blocks(16384, 1000)
         if mode is None:
             cipher = module.new(key)
+        elif hasattr(module, 'MODE_CCM') and mode==module.MODE_CCM:
+            cipher = module.new(key, mode, iv[:8], msg_len=len(rand)*len(blocks))
         else:
             cipher = module.new(key, mode, iv)
 
@@ -330,6 +332,8 @@ class Benchmark:
             self.test_encryption("%s-OFB" % (cipher_name,), module, key_bytes, module.MODE_OFB)
             self.test_encryption("%s-ECB" % (cipher_name,), module, key_bytes, module.MODE_ECB)
             self.test_encryption("%s-OPENPGP" % (cipher_name,), module, key_bytes, module.MODE_OPENPGP)
+            if hasattr(module, "MODE_CCM"):
+                self.test_encryption("%s-CCM" % (cipher_name,), module, key_bytes, module.MODE_CCM)
 
         # Crypto.Cipher (stream ciphers)
         for cipher_name, module, key_bytes in stream_specs:
