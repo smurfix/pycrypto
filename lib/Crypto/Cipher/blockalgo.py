@@ -136,7 +136,25 @@ MODE_OPENPGP = 7
 #:
 #: This mode requires a nonce (*IV*). The nonce shall never repeat for two
 #: different messages encrypted with the same key, but it does not need to be random. 
-#: Note that you may not encrypt or decrypt more than ``256**(15-iv_size)`` bytes.
+#: Note that there is a tradeoff between the max. number of messages you can
+#: encrypt using the same key and the max. size of a message.
+#:
+#: +-------------+---------+-------------------+
+#: | Max. number | len(IV) |     Max. message  |
+#: | of messages | (bytes) |     size (bytes)  |
+#: +=============+=========+===================+
+#: |     8192    |   13    |        64K        |
+#: +-------------+---------+-------------------+
+#: |     4096    |   12    |        16M        |
+#: +-------------+---------+-------------------+
+#: |     2048    |   11    |         4G        |
+#: +-------------+---------+-------------------+
+#: |     1024    |   10    |         1T        |
+#: +-------------+---------+-------------------+
+#: |      512    |    9    |        64P        |
+#: +-------------+---------+-------------------+
+#: |      256    |    8    |        16E        |
+#: +-------------+---------+-------------------+
 #:
 #: This mode is only available for ciphers that operate on 128 bits blocks
 #: (e.g. AES but not TDES).
@@ -294,15 +312,17 @@ class BlockAlgo:
 
         When using an AEAD mode like CCM, and if there is any associated data,
         the caller has to invoke this function one or more times, before
-        using `decrypt` or `encrypt`.
+        using ``decrypt`` or ``encrypt``.
 
         By *associated data* it is meant any data (e.g. packet headers) that
         will not be encrypted and will be transmitted in the clear.
         However, the receiver is still able to detect any modification to it.
+        In CCM, the *associated data* is also called *additional authenticated
+        data*.
 
-        If there is no authenticated data, this method must not be called.
+        If there is no associated data, this method must not be called.
 
-        The caller may split the associated data in segments of any size, and
+        The caller may split associated data in segments of any size, and
         invoke this method multiple times, each time with the next segment.
 
         :Parameters:

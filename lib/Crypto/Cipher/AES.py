@@ -146,17 +146,17 @@ def new(key, *args, **kwargs):
         are segmented in.
         It must be a multiple of 8. If 0 or not specified, it will be assumed to be 8.
       mac_len : integer
-        (*Only* `MODE_CCM`). Length of the MAC, in bytes. It must be even in
+        (*Only* `MODE_CCM`). Length of the MAC, in bytes. It must be even and in
         the range [4..16]. The default is 8.
       msg_len : integer
         (*Only* `MODE_CCM`). Length of the message to (de)cipher. In other
         words, the *total* number of bytes that will be passed to
-        `encrypt` or `decrypt`. It is mandatory only if you call `encrypt`
-        or `decrypt` more than once.
+        ``encrypt`` or ``decrypt``. It is mandatory only if you call
+        ``encrypt`` or ``decrypt`` more than once.
       assoc_len : integer
         (*Only* `MODE_CCM`). Length of the associated data, that is, the
-        number of bytes that will be passed to `update` before encryption or
-        decryption starts. It is mandatory only if you call `update` more than
+        number of bytes that will be passed to ``update`` before encryption or
+        decryption starts. It is mandatory only if you call ``update`` more than
         once.
       use_aesni : boolean
         Use AES-NI if available.
