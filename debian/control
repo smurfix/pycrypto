@@ -1,0 +1,12 @@
+Source: pycrypto
+Maintainer: Dwayne C. Litzenberger <dlitz@dlitz.net>
+Section: python
+Priority: optional
+Build-Depends: python-all-dev (>= 2.6.6-3), debhelper (>= 7)
+Standards-Version: 3.9.1
+
+Package: python-pycrypto
+Architecture: any
+Depends: ${misc:Depends}, ${python:Depends}, ${shlibs:Depends}
+Description: Cryptographic modules for Python.
+
